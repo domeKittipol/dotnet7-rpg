@@ -3,11 +3,15 @@ global using Microsoft.EntityFrameworkCore;
 global using dotnet_rpg.Data;
 global using dotnet_rpg.Dtos.Character;
 global using dotnet_rpg.Services.CharacterService;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Swashbuckle.AspNetCore.Filters;
-using Microsoft.OpenApi.Models;
-//using dotnet_rpg.Services.WeaponService;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.IdentityModel.Tokens;
+global using Swashbuckle.AspNetCore.Filters;
+global using Microsoft.OpenApi.Models;
+global using dotnet_rpg.Services.WeaponService;
+global using System.Security.Claims;
+global using Microsoft.AspNetCore.Mvc;
+global using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +21,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -29,9 +34,11 @@ builder.Services.AddSwaggerGen(c =>
 
     c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -44,6 +51,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IWeaponService, WeaponService>();
 
 var app = builder.Build();
 
