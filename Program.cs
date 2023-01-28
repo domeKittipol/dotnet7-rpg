@@ -12,6 +12,7 @@ global using dotnet_rpg.Services.WeaponService;
 global using System.Security.Claims;
 global using Microsoft.AspNetCore.Mvc;
 global using System.IdentityModel.Tokens.Jwt;
+global using dotnet_rpg.Services.FightService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +55,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IWeaponService, WeaponService>();
+builder.Services.AddScoped<IFightService, FightService>();
 
 var app = builder.Build();
 

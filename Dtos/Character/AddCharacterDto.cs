@@ -7,7 +7,7 @@ namespace dotnet_rpg.Dtos.Character
 {
     public class AddCharacterDto
     {
-        public string Name { get; set; } = "Dome";
+        public string Name { get; set; } = "Name";
         public int HitPoints { get; set; } = 100;
         public int Strength { get; set; } = 10;
         public int Defense { get; set; } = 10;

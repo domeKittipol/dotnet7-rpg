@@ -18,9 +18,8 @@ namespace dotnet_rpg.Models
         public Weapon? Weapon { get; set; }
         public List<Skill>? Skills { get; set; }
 
-        internal int Max(Func<object, object> value)
-        {
-            throw new NotImplementedException();
-        }
+        public int Fight { get; set; }
+        public int Victories { get; set; }
+        public int Defeats { get; set; }
     }
 }
